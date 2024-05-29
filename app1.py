@@ -1,47 +1,27 @@
-
-import numpy as np
+import streamlit as st
 import pickle
-import pandas as pd
-import streamlit as st 
+import numpy as np
 
-from PIL import Image
+model = pickle.load(open('classifier.pkl','rb'))
 
+def predict_banknote(variance, skewness, curtosis, entropy):
 
-pickle_in = open("classifier.pkl","rb")
-classifier = pickle.load(pickle_in)
-
-def welcome():
-    return "Welcome All"
-
-def predict_note_authentication(variance,skewness,curtosis,entropy):
-   
-    prediction=classifier.predict([[variance,skewness,curtosis,entropy]])
-    print(prediction)
-    return prediction
-
+    input = np.array([[variance, skewness, curtosis, entropy]]).astype(np.float64)
+    prediction = model.predict(input)
+    
+    return int(prediction)
 
 def main():
-    st.title("Bank Authenticator")
-    html_temp = """
-    <div style="background-color:tomato;padding:10px">
-    <h2 style="color:white;text-align:center;">Streamlit Bank Authenticator ML App </h2>
-    </div>
-    """
-    st.markdown(html_temp,unsafe_allow_html=True)
-    variance = st.text_input("Variance","Type Here")
-    skewness = st.text_input("skewness","Type Here")
-    curtosis = st.text_input("curtosis","Type Here")
-    entropy = st.text_input("entropy","Type Here")
-    result=""
-    if st.button("Predict"):
-        result=predict_note_authentication(variance,skewness,curtosis,entropy)
-    st.success('The output is {}'.format(result))
-    if st.button("About"):
-        st.text("Lets LEarn")
-        st.text("Built with Streamlit")
+    st.title("Banknote Authentication Classifier")
+    variance = st.text_input("variance", placeholder="Type Here")
+    skewness = st.text_input("skewness", placeholder="Type Here")
+    curtosis = st.text_input("curtosis", placeholder="Type Here")
+    entropy = st.text_input("entropy", placeholder="Type Here")
+
+    if st.button("Get Prediction"):
+        output = predict_banknote(variance, skewness, curtosis, entropy)
+        st.success(f'Result: {output}.')
+        st.write('1 = banknote is genuine, 0 = banknote is forged')
 
 if __name__=='__main__':
     main()
-    
-    
-    
