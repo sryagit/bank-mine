@@ -18,7 +18,7 @@ def main():
     entropy = st.text_input("entropy", placeholder="Type Here")
 
     if st.button("Get Prediction"):
-        output = predict_banknote(variance, skewness, curtosis, entropy)
+        output = predict_note_authentication(variance, skewness, curtosis, entropy)
         st.success(f'Result: {output}.')
         st.write('1 = banknote is genuine, 0 = banknote is forged')
 
