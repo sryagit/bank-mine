@@ -2,12 +2,10 @@ import streamlit as st
 import pickle
 import numpy as np
 
-model = pickle.load(open('classifier.pkl','rb'))
+model = pickle.load(open('classifier.pkl', 'rb'))
 
-def predict_note_authentication(variance,skewness,curtosis,entropy):
-   
-    prediction=classifier.predict([[variance,skewness,curtosis,entropy]])
-    print(prediction)
+def predict_note_authentication(variance, skewness, curtosis, entropy):
+    prediction = model.predict([[variance, skewness, curtosis, entropy]])
     return prediction
 
 def main():
@@ -22,5 +20,5 @@ def main():
         st.success(f'Result: {output}.')
         st.write('1 = banknote is genuine, 0 = banknote is forged')
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
