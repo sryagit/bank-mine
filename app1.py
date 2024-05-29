@@ -3,14 +3,6 @@ import pickle
 import numpy as np
 
 model = pickle.load(open('classifier.pkl','rb'))
-'''
-def predict_banknote(variance, skewness, curtosis, entropy):
-
-    input = np.array([[variance, skewness, curtosis, entropy]]).astype(np.float64)
-    prediction = model.predict(input)
-    
-    return int(prediction)  
-'''
 
 def predict_note_authentication(variance,skewness,curtosis,entropy):
    
